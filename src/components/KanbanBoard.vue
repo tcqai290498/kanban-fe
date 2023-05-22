@@ -28,11 +28,13 @@
         v-for="task in process.tasks"
         :key="task.id"
       >
-        <input v-model="task.title" type="text" placeholder="Title" />
-        <input v-model="task.description" type="text" placeholder="Description" />
-
-        <button @click="deleteTask(task)">del</button>
-        <button @click="saveTask(task)">save</button>
+        <div class="task-detail">
+          <input v-model="task.title" type="text" placeholder="Title" />
+          <input v-model="task.description" type="text" placeholder="Description" />
+          <br>
+          <button @click="deleteTask(task)">Delete</button>
+          <button @click="saveTask(task)">Save</button>
+        </div>
       </div>
       <div class="add-task">
         <input
@@ -45,6 +47,7 @@
           type="text"
           placeholder="Description"
         />
+        <br>
         <button @click="addTask(process.id)">Add Task</button>
       </div>
     </div>
@@ -135,6 +138,11 @@ export default {
   padding: 10px;
   background-color: white;
   border: 1px solid #ccc;
+}
+
+.task-detail {
+  background-color: #b0eaea;
+  border-bottom: dotted;
 }
 
 .add-task {
