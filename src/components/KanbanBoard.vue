@@ -54,6 +54,8 @@
       <button @click="addProcess(newProcess)">Add Process</button>
     </div>
   </div>
+
+  <button @click="logout">Logout</button>
 </template>
 
 <style>
@@ -95,6 +97,7 @@ export default {
       "addTask",
       "saveTask",
       "deleteTask",
+      "logout"
     ]),
   },
 };

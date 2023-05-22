@@ -4,6 +4,9 @@ import axios from 'axios';
 export default createStore({
   state: {
     processes: [],
+    isAuthenticated: false,
+    token: "",
+    isErrorLogin: false,
     taskInputs: {}
   },
   mutations: {
@@ -56,7 +59,15 @@ export default createStore({
       const targetProcess = state.processes.find(process => process.id === processId);
       const targetTask = targetProcess.tasks.find(task => task.id === taskId);
       targetTask.showActions = !targetTask.showActions;
-    },    
+    },
+    SET_AUTHENTICATED(state, isAuthenticated) {
+      state.isAuthenticated = isAuthenticated;
+      console.log('SET_AUTHENTICATED', state.isAuthenticated);
+    },
+    SET_LOGIN_ERR(state, isErrorLogin) {
+      state.isErrorLogin = isErrorLogin;
+      console.log('SET_LOGIN_ERR', state.isErrorLogin);
+    },
   },
   actions: {
     async getTargetProcess({ commit, state }, processId) {
@@ -185,6 +196,39 @@ export default createStore({
         console.error('Error deleting task:', error);
       }
     },
+    async login({ commit }, credentials) {
+      try {
+        // Make an API call to the login endpoint
+        console.log(credentials);
+        const response = await axios.post('http://127.0.0.1:8000/login/', credentials);
+        console.log(response.status);
+        if (response.status === 200) {
+          // Update the authentication state in the store
+          commit('SET_AUTHENTICATED', true);
+          // Save the authentication token or user data in local storage or cookies if needed
+          this.token = response.data.token
+        } else {
+          commit('SET_LOGIN_ERR', true);
+          console.error('Failed to login:', response.status);
+        }
+      } catch (error) {
+        console.error('Error logging in:', error);
+        commit('SET_LOGIN_ERR', true);
+      }
+    },
+    async logout({ commit }) {
+      try {
+        await axios.post('http://localhost:8000/logout/', null, {
+          headers: {
+            Authorization: `Token ${this.token}`,
+          },
+        });
+        commit('SET_AUTHENTICATED', false);
+        // Perform any necessary cleanup or redirect the user to the login page
+      } catch (error) {
+        console.error('Error logging out:', error);
+      }
+    },
   },
   getters: {
     filteredProcesses: (state) => {
@@ -193,6 +237,12 @@ export default createStore({
     },
     getTaskInputs: (state) => {
       return state.taskInputs;
-    }
+    },
+    isAuthenticated: (state) => {
+      return state.isAuthenticated;
+    },
+    isErrorLogin: (state) => {
+      return state.isErrorLogin;
+    },
   },
 });
