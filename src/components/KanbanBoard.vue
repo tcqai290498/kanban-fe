@@ -1,8 +1,11 @@
 <template>
   <div class="kanban-board">
     <div class="process" v-for="process in filteredProcesses" :key="process.id">
+      <button class="del-btn" @click="deleteProcess(process)">Delete</button>
+      <br/>
       <div @click="showProcessActions(process.id)">
-        <div>
+        <div class="process-detail">
+          Process
           <input
             @click.stop.prevent
             v-model="process.title"
@@ -17,8 +20,7 @@
           />
         </div>
         <div>
-          <button @click="deleteProcess(process)">X</button>
-          <button @click="saveProcess(process)">v</button>
+          <button @click="saveProcess(process)">Save</button>
         </div>
       </div>
 
@@ -80,6 +82,7 @@ export default {
         title: "",
         description: "",
       },
+      isEditableProcess: false,
     };
   },
   computed: {
@@ -109,11 +112,20 @@ export default {
 }
 
 .process {
+  position: relative;
   flex: 1;
   margin: 10px;
   padding: 10px;
   background-color: #f0f0f0;
 }
+
+.process-detail {
+  background-color: rebeccapurple;
+  width: 100%;
+  height: 100%;
+  color: white;
+}
+
 .add-process {
   margin-top: 20px;
 }
@@ -127,5 +139,11 @@ export default {
 
 .add-task {
   margin-top: 20px;
+}
+
+.del-btn {
+  position: absolute; /* Position the delete button absolutely */
+  top: 0; /* Align to the top */
+  right: 0; /* Align to the right */
 }
 </style>
