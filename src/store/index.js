@@ -199,7 +199,6 @@ export default createStore({
     async login({ commit }, credentials) {
       try {
         // Make an API call to the login endpoint
-        console.log(credentials);
         const response = await axios.post('http://127.0.0.1:8000/login/', credentials);
         console.log(response.status);
         if (response.status === 200) {
