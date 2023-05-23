@@ -1,15 +1,15 @@
 <template>
   <login-form v-if="!isAuthenticated"></login-form>
-  <h2 v-else><KanbanBoard/></h2>
+  <div v-else><KanbanBoard /></div>
 </template>
 
 <script>
-import KanbanBoard from './components/KanbanBoard.vue'
-import LoginForm from './components/LoginForm.vue'
+import KanbanBoard from "./components/KanbanBoard.vue";
+import LoginForm from "./components/LoginForm.vue";
 import { mapGetters } from "vuex";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     KanbanBoard,
     LoginForm,
@@ -17,7 +17,7 @@ export default {
   computed: {
     ...mapGetters(["isAuthenticated"]),
   },
-}
+};
 </script>
 
 <style>
