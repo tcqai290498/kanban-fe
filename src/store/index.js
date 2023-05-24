@@ -68,6 +68,10 @@ export default createStore({
       state.isErrorLogin = isErrorLogin;
       console.log('SET_LOGIN_ERR', state.isErrorLogin);
     },
+    SET_TOKEN(state, token) {
+      state.token = token;
+      console.log('SET_TOKEN', state.token);
+    }
   },
   actions: {
     async getTargetProcess({ commit, state }, processId) {
@@ -205,7 +209,10 @@ export default createStore({
           // Update the authentication state in the store
           commit('SET_AUTHENTICATED', true);
           // Save the authentication token or user data in local storage or cookies if needed
-          this.token = response.data.token
+          let token = response.data.token;
+          commit('SET_TOKEN', token);
+          localStorage.setItem('token', token);
+          console.log(localStorage.getItem('token'));
         } else {
           commit('SET_LOGIN_ERR', true);
           console.error('Failed to login:', response.status);
@@ -215,14 +222,17 @@ export default createStore({
         commit('SET_LOGIN_ERR', true);
       }
     },
-    async logout({ commit }) {
+    async logout({ commit, state }) {
       try {
+        console.log(state.token);
         await axios.post('http://localhost:8000/logout/', null, {
           headers: {
-            Authorization: `Token ${this.token}`,
+            Authorization: `Token ${state.token}`,
           },
         });
         commit('SET_AUTHENTICATED', false);
+        localStorage.removeItem('token');
+        commit('SET_TOKEN', "");
         // Perform any necessary cleanup or redirect the user to the login page
       } catch (error) {
         console.error('Error logging out:', error);
