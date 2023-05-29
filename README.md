@@ -11,6 +11,12 @@ vue --version
 @vue/cli 5.0.8
 ```
 
+Check npm version
+```
+npm -v
+9.6.0
+```
+
 Check Vue version
 ```
 npm v vue
