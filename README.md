@@ -5,9 +5,18 @@ node -v
 v14.21.3
 ```
 
+Check vue CLI version
 ```
 vue --version
 @vue/cli 5.0.8
+```
+
+Check Vue version
+```
+npm v vue
+vue@3.3.4 | MIT | deps: 5 | versions: 445
+The progressive JavaScript framework for building modern web UI.
+https://github.com/vuejs/core/tree/main/packages/vue#readme
 ```
 ## Project setup
 ```
