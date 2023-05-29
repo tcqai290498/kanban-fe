@@ -1,5 +1,14 @@
 # kanban
+Please check node version in .node-version file
+```
+node -v
+v14.21.3
+```
 
+```
+vue --version
+@vue/cli 5.0.8
+```
 ## Project setup
 ```
 npm install
